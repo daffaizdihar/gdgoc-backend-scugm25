@@ -1,0 +1,35 @@
+# fly.toml app configuration file generated for daffas-book-api on 2025-11-27T11:23:43+07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'daffas-book-api'
+primary_region = 'sin'
+
+[build]
+  dockerfile = 'Dockerfile'
+
+[env]
+  PORT = '8080'
+
+[[services]]
+  protocol = 'tcp'
+  internal_port = 8080
+  processes = ['app']
+
+  [[services.ports]]
+    port = 80
+    handlers = ['http']
+
+  [[services.ports]]
+    port = 443
+    handlers = ['tls', 'http']
+
+  [[services.tcp_checks]]
+    interval = '15s'
+    timeout = '2s'
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
